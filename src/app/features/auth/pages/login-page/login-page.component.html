@@ -1,0 +1,31 @@
+<app-auth-card [title]="'Entrar'" [subtitle]="'Use suas credenciais para acessar o painel'">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4">
+        <div>
+            <label class="block text-sm font-medium text-slate-700">E-mail</label>
+            <input type="text" formControlName="email" autocomplete="email" placeholder="joao@exemplo.com"
+                class="mt-1 w-full rounded-xl border border-slate-300 bg-slate-50 px-3 py-2 outline-none focus:ring-2 focus:ring-lime-500 placeholder:text-slate-400 placeholder:text-sm" />
+            @if (!form.controls['email'].valid && form.controls['email'].touched) {
+            <p class="mt-1 text-sm text-red-600">{{ getFieldError(form, 'email') }}</p>
+            }
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-slate-700">Senha*</label>
+            <input type="password" formControlName="password" autocomplete="current-password"
+                placeholder="Digite sua senha"
+                class="mt-1 w-full rounded-xl border border-slate-300 bg-slate-50 px-3 py-2 outline-none focus:ring-2 focus:ring-lime-500 placeholder:text-slate-400 placeholder:text-sm" />
+            @if (!form.controls['password'].valid && form.controls['password'].touched) {
+            <p class="mt-1 text-sm text-red-600">{{ getFieldError(form, 'password') }}</p>
+            }
+        </div>
+
+        <button type="submit" [disabled]="loading() || !form.valid"
+            class="w-full rounded-xl bg-lime-500 hover:bg-lime-600 text-white font-medium py-2 transition disabled:opacity-50 disabled:pointer-events-none">
+            {{ loading() ? 'Entrando...' : 'Entrar' }}
+        </button>
+
+        <p class="text-center text-sm text-slate-600">Não tem conta?
+            <a routerLink="/auth/registrar" class="text-lime-700 hover:underline">Criar conta</a>
+        </p>
+    </form>
+</app-auth-card>
