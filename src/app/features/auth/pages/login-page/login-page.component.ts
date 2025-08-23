@@ -1,22 +1,22 @@
 import { Component, signal } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
 import {
-  FormBuilder,
   FormGroup,
   Validators,
+  FormBuilder,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
 
 import { catchError, EMPTY, finalize, take } from 'rxjs';
 
 import { User } from '../../data-access/auth.models';
 import { AuthService } from '../../data-access/auth.service';
-import { AuthCardComponent } from '../../ui/auth-card/auth-card.component';
 import { getFieldError } from '../../../../shared/utils/get-field-error';
+import { AuthCardComponent } from '../../ui/auth-card/auth-card.component';
 
 @Component({
   selector: 'app-login-page',
-  imports: [AuthCardComponent, ReactiveFormsModule, RouterModule],
+  imports: [RouterModule, AuthCardComponent, ReactiveFormsModule],
   templateUrl: './login-page.component.html',
 })
 export class LoginPageComponent {
