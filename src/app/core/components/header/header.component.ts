@@ -3,6 +3,7 @@ import {
   Grid3x3,
   Search,
   Funnel,
+  LogOut,
   Download,
   CalendarDays,
   LucideAngularModule,
@@ -25,6 +26,7 @@ export class HeaderComponent {
     grid: Grid3x3,
     search: Search,
     funnel: Funnel,
+    logout: LogOut,
     download: Download,
     calendarDays: CalendarDays,
   };

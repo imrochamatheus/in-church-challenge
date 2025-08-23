@@ -1,26 +1,12 @@
 <header class="bg-white border-b border-gray-200 px-3 sm:px-4 md:px-6 py-3 md:py-4">
     <div class="max-w-7xl mx-auto flex items-center justify-between gap-3 flex-wrap">
         <div class="flex items-center gap-2 sm:gap-3 min-w-0">
-            <div class="w-8 h-8 bg-lime-500 rounded flex items-center justify-center shrink-0">
-                <div class="grid grid-cols-2 gap-0.5">
-                    <div class="w-1.5 h-1.5 bg-white rounded-sm"></div>
-                    <div class="w-1.5 h-1.5 bg-white rounded-sm"></div>
-                    <div class="w-1.5 h-1.5 bg-white rounded-sm"></div>
-                    <div class="w-1.5 h-1.5 bg-white rounded-sm"></div>
-                </div>
-            </div>
-            <span class="text-base sm:text-lg font-semibold text-gray-900 truncate">inchurch</span>
-            <span class="hidden md:inline text-sm text-gray-500">ID da Igreja: 1985</span>
+            <span class="text-base sm:text-lg font-semibold text-gray-900 truncate">
+                <span class="text-lime-500">in</span>church</span>
+            <span class=" hidden md:inline text-sm text-gray-500">ID da Igreja: 1985</span>
         </div>
 
         <div class="flex items-center gap-2 sm:gap-3 ml-auto">
-            <button type="button"
-                class="p-2 text-gray-500 hover:text-gray-700 rounded-md hover:bg-gray-100 transition-colors md:hidden"
-                aria-label="Abrir busca" aria-controls="mobile-search" [attr.aria-expanded]="isSearchOpen()"
-                (click)="toggleSearch()">
-                <lucide-angular [img]="icons.search" [size]="20"></lucide-angular>
-            </button>
-
             <button type="button"
                 class="p-2 text-gray-400 hover:text-gray-600 rounded-md hover:bg-gray-100 transition-colors"
                 aria-label="Filtrar">
@@ -45,11 +31,12 @@
                     <span class="hidden md:inline text-sm font-medium">Sara Paulson</span>
                 </div>
             </div>
-
             <button type="button" (click)="newEvent.emit()"
                 class="ml-1 sm:ml-2 px-3 md:px-4 py-2 bg-lime-500 hover:bg-lime-600 text-white rounded-md font-medium transition-colors flex items-center gap-2">
-                <span class="md:hidden text-lg leading-none">+</span>
-                <span class="hidden md:inline">+ Novo</span>
+                <span class="md:hidden text-lg leading-none">
+                    <lucide-angular [img]="icons.logout" [size]="16" /></span>
+                <span class="hidden md:flex items-center gap-2">
+                    <lucide-angular [img]="icons.logout" [size]="20" /> Sair</span>
             </button>
         </div>
     </div>
