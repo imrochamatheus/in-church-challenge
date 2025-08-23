@@ -1,6 +1,8 @@
 import { Injectable, signal } from '@angular/core';
-import { Login, Register, User, UserRequest } from './auth.models';
+import { Router } from '@angular/router';
+
 import { delay, Observable, of, throwError } from 'rxjs';
+import { Login, Register, User, UserRequest } from './auth.models';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +13,7 @@ export class AuthService {
     this.getUserFromStorage() as User | null
   );
 
-  constructor() {}
+  constructor(private readonly router: Router) {}
 
   public login(data: Login): Observable<User> {
     const savedUser = this.getUserFromStorage();
@@ -56,6 +58,8 @@ export class AuthService {
 
     localStorage.removeItem('isAuthenticated');
     localStorage.removeItem('user');
+
+    this.router.navigate(['auth/entrar']);
   }
 
   private getAuthStatus(): boolean {
@@ -64,7 +68,6 @@ export class AuthService {
 
   private getUserFromStorage(): UserRequest | null {
     const userData = localStorage.getItem('user');
-
     return userData ? JSON.parse(userData) : null;
   }
 }
