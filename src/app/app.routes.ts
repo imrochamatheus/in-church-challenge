@@ -1,15 +1,16 @@
 import { Routes } from '@angular/router';
+
+import { authGuard } from './core/guards/auth.guard';
 import { authRoutes } from './features/auth/auth.routes';
 import { MainLayoutComponent } from './core/layouts/main-layout/main-layout.component';
-import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   {
-    path: '',
+    path: 'admin',
     component: MainLayoutComponent,
     children: [
       {
-        path: '',
+        path: 'eventos',
         title: 'Eventos',
         canMatch: [authGuard],
         loadComponent: () =>

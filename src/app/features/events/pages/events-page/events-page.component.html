@@ -1,1 +1,5 @@
-<p>events-page works!</p>
+<section class="md:grid md:grid-cols-2 md:gap-4 lg:grid-cols-3 lg:gap-6 xl:grid-cols-4 xl:gap-8 ">
+    @for (item of events; track $index) {
+    <app-event-card [event]="item"></app-event-card>
+    }
+</section>

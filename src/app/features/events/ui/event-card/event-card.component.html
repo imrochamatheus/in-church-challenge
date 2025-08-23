@@ -1,1 +1,53 @@
-<p>event-card works!</p>
+<div
+    class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow cursor-pointer hover:scale-[1.01]">
+    <div class="aspect-video bg-gray-100 relative overflow-hidden">
+        @if (event().image) {
+        <img [src]="event().image" [alt]="event().title || 'Imagem do evento'" class="w-full h-full object-cover" />
+        } @else {
+        <div class="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+            <div class="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center">
+                <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+            </div>
+        </div>
+        }
+
+        <div class="absolute top-3 left-3">
+            <span class="px-2 py-1 text-xs rounded-full font-medium" [ngClass]="event().status === 'active'
+              ? 'bg-green-100 text-green-700'
+              : 'bg-gray-100 text-gray-700'">
+                {{ event().status === 'active' ? 'Ingressos ativos' : 'Sem ingressos ativos' }}
+            </span>
+        </div>
+    </div>
+
+    <div class="p-4">
+        <h3 class="font-semibold text-gray-900 mb-2 line-clamp-1 " [attr.title]="event().title">
+            {{ event().title }}
+        </h3>
+
+        <div class="text-sm text-lime-600 font-medium mb-1">
+            Publicado em
+        </div>
+        <div class="text-sm text-gray-600 mb-4">
+            {{ event().publishedAt | date:'dd/MM/yyyy \'às\' HH:mm' }}
+        </div>
+
+        <div class="flex items-center justify-end gap-2">
+            <button type="button" (click)="edit.emit(event())"
+                class="p-2 text-gray-400 hover:text-lime-600 hover:bg-lime-50 rounded-md transition-colors"
+                title="Editar evento" aria-label="Editar evento">
+                <lucide-angular [img]="icons.edit" [size]="16" />
+            </button>
+
+            <button type="button" (click)="onRemove()"
+                class="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
+                title="Excluir evento" aria-label="Excluir evento">
+                <lucide-angular [img]="icons.delete" [size]="16" />
+            </button>
+        </div>
+    </div>
+</div>
