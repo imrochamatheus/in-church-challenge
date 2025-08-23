@@ -8,6 +8,7 @@ import {
   CalendarDays,
   LucideAngularModule,
 } from 'lucide-angular';
+import { AuthService } from '../../../features/auth/data-access/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -21,6 +22,8 @@ export class HeaderComponent {
   public newEvent = output<void>();
 
   public isSearchOpen = signal(false);
+
+  constructor(private readonly authService: AuthService) {}
 
   public readonly icons = {
     grid: Grid3x3,
@@ -36,7 +39,7 @@ export class HeaderComponent {
     this.search.emit(term);
   }
 
-  public toggleSearch() {
-    this.isSearchOpen.update((value) => !value);
+  public onLogout() {
+    this.authService.logout();
   }
 }
