@@ -28,6 +28,7 @@ export class AuthService {
         email: savedUser.email,
         phone: savedUser.phone,
         username: savedUser.username,
+        password: savedUser.password,
       };
 
       this.setSession(user);
@@ -57,7 +58,6 @@ export class AuthService {
     this.user.set(null);
 
     localStorage.removeItem('isAuthenticated');
-    localStorage.removeItem('user');
 
     this.router.navigate(['auth/entrar']);
   }

@@ -11,4 +11,4 @@ export interface Register {
 }
 
 export type UserRequest = Register;
-export type User = Omit<Register, 'password'> & { id: number };
+export type User = Register & { id: number };
