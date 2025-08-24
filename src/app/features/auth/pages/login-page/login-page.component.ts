@@ -51,7 +51,7 @@ export class LoginPageComponent {
       )
       .subscribe((_: User) => {
         setTimeout(() => {
-          this.router.navigate(['/']);
+          this.router.navigate(['/admin/eventos']);
         }, 600);
       });
   }
