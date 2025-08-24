@@ -1,7 +1,10 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+
 import { catchError, EMPTY, take } from 'rxjs';
+
+import { AppEvent } from '../../data-access/event.models';
 import { EventService } from '../../data-access/event.service';
-import { EventCardModel } from '../../data-access/event.models';
 import { EventCardComponent } from '../../ui/event-card/event-card.component';
 
 @Component({
@@ -11,7 +14,7 @@ import { EventCardComponent } from '../../ui/event-card/event-card.component';
   styleUrl: './events-page.component.scss',
 })
 export class EventsPageComponent implements OnInit {
-  public events: EventCardModel[] = [];
+  public events: AppEvent[] = [];
 
   constructor(private readonly eventService: EventService) {}
 
@@ -28,4 +31,8 @@ export class EventsPageComponent implements OnInit {
         this.events = events;
       });
   }
+
+  public editEvent(eventId: string): void {}
+
+  public deleteEvent(eventId: string): void {}
 }

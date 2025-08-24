@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { EventCardModel } from './event.models';
+
 import { Observable } from 'rxjs';
+
+import { AppEvent } from './event.models';
 import { environment } from '../../../../environments/environment';
 
 @Injectable({
@@ -10,7 +12,7 @@ import { environment } from '../../../../environments/environment';
 export class EventService {
   constructor(private readonly http: HttpClient) {}
 
-  public getEvents(): Observable<EventCardModel[]> {
-    return this.http.get<EventCardModel[]>(`${environment.apiUrl}/events`);
+  public getEvents(): Observable<AppEvent[]> {
+    return this.http.get<AppEvent[]>(`${environment.apiUrl}/events`);
   }
 }
