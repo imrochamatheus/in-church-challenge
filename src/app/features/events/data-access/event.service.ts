@@ -1,9 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
-import { AppEvent } from './event.models';
+import { AppEvent, ListParams, ListResult } from './event.models';
 import { environment } from '../../../../environments/environment';
 
 @Injectable({
@@ -12,7 +12,27 @@ import { environment } from '../../../../environments/environment';
 export class EventService {
   constructor(private readonly http: HttpClient) {}
 
-  public getEvents(): Observable<AppEvent[]> {
-    return this.http.get<AppEvent[]>(`${environment.apiUrl}/events`);
+  public getEvents(params: ListParams): Observable<ListResult<AppEvent>> {
+    const httpParams = new HttpParams().set('order', 'desc');
+
+    return this.http
+      .get<AppEvent[]>(`${environment.apiUrl}/events`, { params: httpParams })
+      .pipe(
+        map((response) => {
+          const total = response.length;
+
+          const page = Math.max(1, Number(params.page) || 1);
+          const limit = Math.max(1, Number(params.limit) || total || 1);
+
+          const start = (page - 1) * limit;
+          const end = start + limit;
+
+          const items = response
+            .slice(start, end)
+            .map((event) => ({ ...event }));
+
+          return { items, total } as ListResult<AppEvent>;
+        })
+      );
   }
 }
