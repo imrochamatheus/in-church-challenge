@@ -3,7 +3,7 @@ import { inject } from '@angular/core';
 
 import { AuthService } from '../../features/auth/data-access/auth.service';
 
-export const authGuard: CanMatchFn = (route, segments) => {
+export const authGuard: CanMatchFn = () => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
@@ -11,9 +11,5 @@ export const authGuard: CanMatchFn = (route, segments) => {
     return true;
   }
 
-  const returnUrl = router.routerState.snapshot.url;
-
-  return router.createUrlTree(['/auth/entrar'], {
-    queryParams: { returnUrl },
-  });
+  return router.createUrlTree(['/auth/entrar']);
 };
