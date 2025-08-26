@@ -1,0 +1,150 @@
+<div class="flex items-center gap-3 mb-4">
+    <button type="button" (click)="back()"
+        class="inline-flex items-center gap-2 px-3 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-50">
+        <lucide-icon [name]="icons.arrowLeft" [size]="16"></lucide-icon>
+        Voltar
+    </button>
+
+    <button type="button" (click)="edit()"
+        class="inline-flex items-center gap-2 px-3 py-2 rounded-md border border-gray-900 bg-gray-900 text-white hover:opacity-90 ml-auto">
+        <lucide-icon [name]="icons.pencil" [size]="16"></lucide-icon>
+        Editar
+    </button>
+</div>
+
+@if (loading()) {
+<div class="animate-pulse space-y-4">
+    <div class="h-48 bg-gray-200 rounded-md"></div>
+    <div class="h-6 bg-gray-200 rounded w-3/4"></div>
+    <div class="h-4 bg-gray-200 rounded w-1/2"></div>
+</div>
+} @else if (error()) {
+<div class="p-6 bg-red-50 border border-red-200 text-red-700 rounded-md">
+    {{ error() }}
+</div>
+} @else if (event()) {
+<article class="bg-white border border-gray-200 rounded-lg overflow-hidden">
+    <div class="aspect-video bg-gray-100 overflow-hidden">
+        @if (event()?.image) {
+        <img [src]="event()!.image!" [alt]="event()!.title" class="w-full h-full object-cover" />
+        } @else {
+        <div class="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200"></div>
+        }
+    </div>
+
+    <div class="p-6">
+        <div class="flex items-center gap-2 mb-3">
+            <span class="px-2 py-1 text-xs rounded-full font-medium" [ngClass]="statusClasses">
+                {{ event()!.status === 'active' ? 'Ingressos ativos' : 'Sem ingressos ativos' }}
+            </span>
+            <span class="px-2 py-1 text-xs rounded-full font-medium bg-gray-100 text-gray-700">
+                {{ event()!.category }}
+            </span>
+        </div>
+
+        <h1 class="text-2xl font-semibold text-gray-900 mb-2">
+            {{ event()!.title }}
+        </h1>
+
+        @if (event()!.description) {
+        <p class="text-gray-600 mb-4">
+            {{ event()!.description }}
+        </p>
+        }
+
+        <div class="grid sm:grid-cols-3 gap-4 mb-6">
+            <div class="flex items-start gap-3">
+                <lucide-icon [name]="icons.calendar" [size]="18" class="text-gray-600 mt-1"></lucide-icon>
+                <div>
+                    <div class="text-sm text-gray-500">Publicado em</div>
+                    <div class="text-sm font-medium text-gray-900">
+                        {{ event()!.publishedAt }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+                <lucide-icon [name]="icons.clock" [size]="18" class="text-gray-600 mt-1"></lucide-icon>
+                <div>
+                    <div class="text-sm text-gray-500">Quando</div>
+                    <div class="text-sm font-medium text-gray-900">
+                        {{ event()!.startAt }}
+                        —
+                        {{ event()!.endAt }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+                <lucide-icon [name]="icons.mapPin" [size]="18" class="text-gray-600 mt-1"></lucide-icon>
+                <div>
+                    <div class="text-sm text-gray-500">Onde</div>
+                    <div class="text-sm font-medium text-gray-900">
+                        {{ event()!.venue }}, {{ event()!.city }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+                <lucide-icon [name]="icons.users" [size]="18" class="text-gray-600 mt-1"></lucide-icon>
+                <div>
+                    <div class="text-sm text-gray-500">Organizador</div>
+                    <div class="text-sm font-medium text-gray-900">
+                        {{ event()!.organizer }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+                <lucide-icon [name]="icons.ticket" [size]="18" class="text-gray-600 mt-1"></lucide-icon>
+                <div>
+                    <div class="text-sm text-gray-500">Ingressos disponíveis</div>
+                    <div class="text-sm font-medium text-gray-900">
+                        {{ event()!.ticketsAvailable }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+                <lucide-icon [name]="icons.tag" [size]="18" class="text-gray-600 mt-1"></lucide-icon>
+                <div>
+                    <div class="text-sm text-gray-500">Preço</div>
+                    <div class="text-sm font-medium text-gray-900">
+                        {{ event()!.price }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid sm:grid-cols-3 gap-4">
+            <div class="flex items-start gap-3">
+                <lucide-icon [name]="icons.users" [size]="18" class="text-gray-600 mt-1"></lucide-icon>
+                <div>
+                    <div class="text-xs text-gray-500">Público-alvo</div>
+                    <div class="text-sm font-medium text-gray-900">
+                        {{ event()!.target || '-' }}
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-start gap-3">
+                <lucide-icon [name]="icons.users" [size]="18" class="text-gray-600 mt-1"></lucide-icon>
+                <div>
+                    <div class="text-xs text-gray-500">Publicado para</div>
+                    <div class="text-sm font-medium text-gray-900">
+                        {{ event()!.publishedFor || '-' }}
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-start gap-3">
+                <lucide-icon [name]="icons.users" [size]="18" class="text-gray-600 mt-1"></lucide-icon>
+                <div>
+                    <div class="text-xs text-gray-500">Total de leitores</div>
+                    <div class="text-sm font-medium text-gray-900">
+                        {{ event()!.readers ?? '-' }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+}

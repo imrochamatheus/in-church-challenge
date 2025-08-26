@@ -12,6 +12,10 @@ import { environment } from '../../../../environments/environment';
 export class EventService {
   constructor(private readonly http: HttpClient) {}
 
+  public getById(id: string): Observable<AppEvent> {
+    return this.http.get<AppEvent>(`${environment.apiUrl}/events/${id}`);
+  }
+
   public getEvents(params: ListParams): Observable<ListResult<AppEvent>> {
     const httpParams = new HttpParams().set('order', 'desc');
 
