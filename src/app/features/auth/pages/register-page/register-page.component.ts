@@ -53,18 +53,8 @@ export class RegisterPageComponent {
           ],
         ],
         email: ['', [Validators.required, Validators.email]],
-        phone: [
-          '',
-          [Validators.required, Validators.pattern('^[0-9]{10,11}$')],
-        ],
-        password: [
-          '',
-          [
-            Validators.required,
-            Validators.minLength(8),
-            Validators.pattern('^(?=.*[a-zA-Z])(?=.*[0-9]).*$'),
-          ],
-        ],
+        phone: ['', [Validators.required]],
+        password: ['', [Validators.required, Validators.minLength(8), ,]],
         confirmPassword: ['', [Validators.required]],
       },
       { validators: confirmPasswordValidator }
