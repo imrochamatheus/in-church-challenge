@@ -52,6 +52,6 @@ export class HeaderComponent {
       this.router.navigate(['auth', 'login']);
     }
 
-    return this.authService.user()?.username || '';
+    return this.authService.user()?.username.split(' ')[0] || '';
   }
 }
