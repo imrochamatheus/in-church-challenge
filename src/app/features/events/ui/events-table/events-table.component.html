@@ -82,7 +82,7 @@
                                 <lucide-angular [img]="icons.edit" [size]="16" />
                             </button>
 
-                            <button type="button" (click)="remove()(event.id)"
+                            <button type="button" (click)="remove.emit(event)"
                                 class="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
                                 title="Excluir evento" aria-label="Excluir evento">
 

@@ -45,4 +45,8 @@ export class EventService {
       .patch<AppEvent>(`${environment.apiUrl}/events/${id}`, changes)
       .pipe(map((event) => ({ ...event, id: String(event.id) })));
   }
+
+  public delete(id: string): Observable<void> {
+    return this.http.delete<void>(`${environment.apiUrl}/events/${id}`);
+  }
 }

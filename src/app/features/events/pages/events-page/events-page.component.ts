@@ -2,12 +2,15 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Component, effect, signal } from '@angular/core';
 
+import { ToastModule } from 'primeng/toast';
 import { catchError, EMPTY, finalize, take } from 'rxjs';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 import { Grid3x3, LucideAngularModule, Table } from 'lucide-angular';
 
-import { AppEvent, EventCardModel } from '../../data-access/event.models';
 import { EventService } from '../../data-access/event.service';
+import { AppEvent, EventCardModel } from '../../data-access/event.models';
 import { EventCardComponent } from '../../ui/event-card/event-card.component';
 import { EventsTableComponent } from '../../ui/events-table/events-table.component';
 
@@ -16,11 +19,13 @@ type ViewMode = 'cards' | 'table';
 @Component({
   selector: 'app-events-page',
   imports: [
+    ToastModule,
     CommonModule,
     PaginatorModule,
     EventCardComponent,
     LucideAngularModule,
     EventsTableComponent,
+    ConfirmDialogModule,
   ],
   templateUrl: './events-page.component.html',
   styleUrl: './events-page.component.scss',
@@ -40,9 +45,55 @@ export class EventsPageComponent {
 
   constructor(
     private readonly router: Router,
-    private readonly eventService: EventService
+    private readonly eventService: EventService,
+    private readonly messageService: MessageService,
+    private readonly confirmationService: ConfirmationService
   ) {
     effect(() => this.fetch());
+  }
+
+  public confirmDelete(id: string, title?: string): void {
+    this.confirmationService.confirm({
+      header: 'Excluir evento',
+      message: `Tem certeza que deseja excluir ${
+        title ? `"${title}"` : 'este evento'
+      }?`,
+      rejectLabel: 'Cancelar',
+      acceptLabel: 'Excluir',
+      acceptButtonStyleClass: 'p-button-danger',
+      accept: () => this.doDelete(id),
+    });
+  }
+
+  private doDelete(id: string) {
+    this.eventService
+      .delete(id)
+      .pipe(
+        take(1),
+        catchError(() => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail: 'Falha ao excluir o evento.',
+          });
+
+          return EMPTY;
+        })
+      )
+      .subscribe({
+        next: () => {
+          const onlyOne = this.events().length === 1;
+          const notFirst = this.page() > 0;
+
+          onlyOne && notFirst ? this.page.update((p) => p - 1) : this.fetch();
+
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Removido',
+            detail: 'Evento excluído com sucesso.',
+          });
+        },
+      });
   }
 
   public fetch(): void {
@@ -80,6 +131,7 @@ export class EventsPageComponent {
     this.router.navigate(['/admin/eventos', event.id]);
   }
 
-  public editEvent = (id: string) => console.log('edit', id);
-  public deleteEvent = (id: string) => console.log('delete', id);
+  public deleteEvent(event: AppEvent): void {
+    this.confirmDelete(event.id, event.title);
+  }
 }

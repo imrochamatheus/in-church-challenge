@@ -21,7 +21,7 @@
     @if (!loading() && events().length) {
 
     @for (item of events(); track $index) {
-    <app-event-card [event]="item"></app-event-card>
+    <app-event-card [event]="item" (remove)="deleteEvent(item)"></app-event-card>
     }
 
     } @else if (loading()) {
@@ -31,7 +31,7 @@
     }
 </section>
 } @else {
-<app-events-table [events]="events()" [remove]="deleteEvent">
+<app-events-table [events]="events()" (remove)="deleteEvent($event)">
 </app-events-table>
 }
 

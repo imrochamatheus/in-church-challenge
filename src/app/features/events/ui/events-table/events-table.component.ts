@@ -1,6 +1,6 @@
 import { Component, input, output } from '@angular/core';
 import { Eye, LucideAngularModule, Pencil, Trash2 } from 'lucide-angular';
-import { AppEvent } from '../../data-access/event.models';
+import { AppEvent, EventCardModel } from '../../data-access/event.models';
 import { Router } from '@angular/router';
 
 @Component({
@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class EventsTableComponent {
   public events = input.required<AppEvent[]>();
-  public remove = input.required<(id: string) => void>();
+  public remove = output<AppEvent>();
 
   constructor(private readonly router: Router) {}
 
