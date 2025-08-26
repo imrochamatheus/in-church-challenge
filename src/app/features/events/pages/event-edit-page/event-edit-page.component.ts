@@ -20,6 +20,7 @@ import {
   ArrowLeft,
   LucideAngularModule,
 } from 'lucide-angular';
+import { MessageService } from 'primeng/api';
 
 import { EventService } from '../../data-access/event.service';
 import { AppEvent, EventStatus } from '../../data-access/event.models';
@@ -83,6 +84,7 @@ export class EventEditPageComponent {
     private readonly fb: FormBuilder,
     private readonly location: Location,
     private readonly eventsService: EventService,
+    private readonly messageService: MessageService,
     private readonly activatedRoute: ActivatedRoute
   ) {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -190,15 +192,24 @@ export class EventEditPageComponent {
       .update(this.id(), patch)
       .pipe(
         take(1),
-        catchError((err) => {
+        catchError((_) => {
           this.saving.set(false);
-          this.error.set('Falha ao salvar. Tente novamente.');
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail: 'Falha ao atualizar o evento.',
+          });
 
           return EMPTY;
         }),
         finalize(() => this.saving.set(false))
       )
       .subscribe((event) => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Atualizado',
+          detail: 'Evento atualizado com sucesso.',
+        });
         this.router.navigate(['admin/eventos', event.id]);
       });
   }
