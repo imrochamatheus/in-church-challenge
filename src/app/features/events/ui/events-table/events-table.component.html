@@ -24,7 +24,7 @@
             @if (events().length) {
             <tbody class="bg-white divide-y divide-gray-200">
                 @for (event of events(); track $index) {
-                <tr class="hover:bg-gray-50 transition-colors">
+                <tr class="hover:bg-gray-50 transition-colors" (click)="onView(event)">
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="flex items-center gap-3">
                             <div class="w-12 h-12 bg-gray-100 rounded-lg overflow-hidden shrink-0">

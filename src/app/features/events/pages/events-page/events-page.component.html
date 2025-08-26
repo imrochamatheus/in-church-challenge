@@ -31,7 +31,7 @@
     }
 </section>
 } @else {
-<app-events-table [events]="events()" [edit]="editEvent" [remove]="deleteEvent">
+<app-events-table [events]="events()" [edit]="editEvent" [remove]="deleteEvent" (view)="onView($event)">
 </app-events-table>
 }
 
