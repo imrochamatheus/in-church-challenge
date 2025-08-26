@@ -63,3 +63,43 @@ Uma aplicação full-stack que permite efetuar login, listar, atualizar e remove
 > 🔁 Para reiniciar: `docker-compose down && docker-compose up --build`
 
 ---
+
+## Melhorias futuras
+
+   - Adição de parâmetros de paginação e modo de exibição (cards ou tabela) na URL
+   - Implementação de testes unitários
+
+
+## Aplicação em funcionamento
+
+### Login
+
+<img width="1431" height="1010" alt="image" src="https://github.com/user-attachments/assets/fb0f3d30-7f85-401c-a402-9291b2248d7b" />
+
+### Cadastro de usuário
+
+<img width="1431" height="1010" alt="image" src="https://github.com/user-attachments/assets/68786b47-a6cf-4930-be0b-94f171f9470a" />
+
+### Listagem de eventos (Cards)
+
+<img width="1431" height="1010" alt="image" src="https://github.com/user-attachments/assets/67294d5c-fce2-4008-b3a3-6ac46205eb71" />
+
+### Página de listagem de eventos (Tabela)
+
+<img width="1431" height="1010" alt="image" src="https://github.com/user-attachments/assets/660ed688-696b-403d-b9b0-eb6c4a0e3cce" />
+
+### Página de detalhes do evento
+
+<img width="1431" height="1010" alt="image" src="https://github.com/user-attachments/assets/c15967ea-1ce7-494b-b113-b239b5f52a6e" />
+
+### Página de edição de evento 
+
+<img width="1431" height="1010" alt="image" src="https://github.com/user-attachments/assets/eb8700a1-8d0a-4d45-b099-691be787bec5" />
+
+### Confirmação de deleção do evento
+
+<img width="1431" height="1010" alt="image" src="https://github.com/user-attachments/assets/29686c2e-abd0-4fdf-b7b0-9bfb46c199f0" />
+
+
+
+
