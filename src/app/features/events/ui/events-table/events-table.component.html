@@ -24,7 +24,7 @@
             @if (events().length) {
             <tbody class="bg-white divide-y divide-gray-200">
                 @for (event of events(); track $index) {
-                <tr class="hover:bg-gray-50 transition-colors" (click)="onView(event)">
+                <tr class="hover:bg-gray-50 transition-colors">
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="flex items-center gap-3">
                             <div class="w-12 h-12 bg-gray-100 rounded-lg overflow-hidden shrink-0">
@@ -68,7 +68,14 @@
 
                     <td class="px-6 py-4 whitespace-nowrap text-right">
                         <div class="flex items-center justify-end gap-2">
-                            <button type="button" (click)="edit()(event.id)"
+                            <button type="button" (click)="onView(event)"
+                                class="p-2 text-gray-400 hover:text-lime-600 hover:bg-lime-50 rounded-md transition-colors"
+                                title="Visualizar Evento" aria-label="Visualizar Evento">
+
+                                <lucide-angular [img]="icons.view" [size]="16" />
+                            </button>
+
+                            <button type="button" (click)="onEdit(event)"
                                 class="p-2 text-gray-400 hover:text-lime-600 hover:bg-lime-50 rounded-md transition-colors"
                                 title="Editar evento" aria-label="Editar evento">
 

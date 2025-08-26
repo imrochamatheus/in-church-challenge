@@ -81,7 +81,7 @@ export class EventDetailPageComponent {
 
   public edit(): void {
     const id = this.event()?.id;
-    if (id) this.router.navigate(['/eventos', id, 'editar']);
+    if (id) this.router.navigate(['admin/eventos', id, 'editar']);
   }
 
   public get statusClasses(): string {

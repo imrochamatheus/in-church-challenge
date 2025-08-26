@@ -1,6 +1,7 @@
-import { Component, input, OnInit, output } from '@angular/core';
-import { LucideAngularModule, Pencil, Trash2 } from 'lucide-angular';
+import { Component, input, output } from '@angular/core';
+import { Eye, LucideAngularModule, Pencil, Trash2 } from 'lucide-angular';
 import { AppEvent } from '../../data-access/event.models';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-events-table',
@@ -9,16 +10,21 @@ import { AppEvent } from '../../data-access/event.models';
 })
 export class EventsTableComponent {
   public events = input.required<AppEvent[]>();
-  public edit = input.required<(id: string) => void>();
   public remove = input.required<(id: string) => void>();
-  public view = output<AppEvent>();
+
+  constructor(private readonly router: Router) {}
 
   public readonly icons = {
     edit: Pencil,
     delete: Trash2,
+    view: Eye,
   };
 
   public onView(event: AppEvent): void {
-    this.view.emit(event);
+    this.router.navigate(['admin/eventos', event.id]);
+  }
+
+  public onEdit(event: AppEvent): void {
+    this.router.navigate(['admin/eventos', event.id, 'editar']);
   }
 }

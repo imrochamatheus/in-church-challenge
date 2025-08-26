@@ -1,8 +1,9 @@
 import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { LucideAngularModule, Pencil, Trash2 } from 'lucide-angular';
+import { Eye, LucideAngularModule, Pencil, Trash2 } from 'lucide-angular';
 import { EventCardModel } from '../../data-access/event.models';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-event-card',
@@ -11,17 +12,18 @@ import { EventCardModel } from '../../data-access/event.models';
 })
 export class EventCardComponent {
   public event = input.required<EventCardModel>();
-  public edit = output<EventCardModel>();
   public remove = output<EventCardModel>();
-  public view = output<EventCardModel>();
+
+  constructor(private readonly router: Router) {}
 
   public readonly icons = {
     edit: Pencil,
     delete: Trash2,
+    view: Eye,
   };
 
   public onEdit(): void {
-    this.edit.emit(this.event());
+    this.router.navigate(['admin/eventos', this.event().id, 'editar']);
   }
 
   public onRemove(): void {
@@ -29,6 +31,6 @@ export class EventCardComponent {
   }
 
   public onView(): void {
-    this.view.emit(this.event());
+    this.router.navigate(['admin/eventos', this.event().id]);
   }
 }
