@@ -1,5 +1,5 @@
-<div
-    class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow cursor-pointer hover:scale-[1.01]">
+<div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow cursor-pointer hover:scale-[1.01]"
+    (click)="onView()">
     <div class="aspect-video bg-gray-100 relative overflow-hidden">
         @if (event().image) {
         <img [src]="event().image" [alt]="event().title || 'Imagem do evento'" class="w-full h-full object-cover" />

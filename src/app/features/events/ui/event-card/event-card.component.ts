@@ -13,6 +13,7 @@ export class EventCardComponent {
   public event = input.required<EventCardModel>();
   public edit = output<EventCardModel>();
   public remove = output<EventCardModel>();
+  public view = output<EventCardModel>();
 
   public readonly icons = {
     edit: Pencil,
@@ -25,5 +26,9 @@ export class EventCardComponent {
 
   public onRemove(): void {
     this.remove.emit(this.event());
+  }
+
+  public onView(): void {
+    this.view.emit(this.event());
   }
 }
