@@ -58,7 +58,7 @@
                 <div>
                     <div class="text-sm text-gray-500">Publicado em</div>
                     <div class="text-sm font-medium text-gray-900">
-                        {{ event()!.publishedAt }}
+                        {{ event()!.publishedAt | date:'dd/MM/yyyy \'às\' HH:mm'}}
                     </div>
                 </div>
             </div>
@@ -68,9 +68,9 @@
                 <div>
                     <div class="text-sm text-gray-500">Quando</div>
                     <div class="text-sm font-medium text-gray-900">
-                        {{ event()!.startAt }}
+                        {{ event()!.startAt | date:'dd/MM/yyyy \'às\' HH:mm' }}
                         —
-                        {{ event()!.endAt }}
+                        {{ event()!.endAt | date:'dd/MM/yyyy \'às\' HH:mm'}}
                     </div>
                 </div>
             </div>
