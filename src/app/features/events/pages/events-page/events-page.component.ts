@@ -1,10 +1,12 @@
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Component, effect, signal } from '@angular/core';
-import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 
+import { catchError, EMPTY, finalize, take } from 'rxjs';
+import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 import { Grid3x3, LucideAngularModule, Table } from 'lucide-angular';
 
-import { AppEvent } from '../../data-access/event.models';
+import { AppEvent, EventCardModel } from '../../data-access/event.models';
 import { EventService } from '../../data-access/event.service';
 import { EventCardComponent } from '../../ui/event-card/event-card.component';
 import { EventsTableComponent } from '../../ui/events-table/events-table.component';
@@ -36,7 +38,10 @@ export class EventsPageComponent {
     table: Table,
   };
 
-  constructor(private readonly eventService: EventService) {
+  constructor(
+    private readonly router: Router,
+    private readonly eventService: EventService
+  ) {
     effect(() => this.fetch());
   }
 
@@ -47,17 +52,18 @@ export class EventsPageComponent {
         page: this.page() + 1,
         limit: this.rows(),
       })
-      .subscribe({
-        next: (res) => {
-          this.events.set(res.items);
-          this.total.set(res.total);
+      .pipe(
+        take(1),
+        catchError((err) => {
+          return EMPTY;
+        }),
+        finalize(() => {
           this.loading.set(false);
-
-          console.log(this.rows());
-          console.log(this.page());
-          console.log(res);
-        },
-        error: () => this.loading.set(false),
+        })
+      )
+      .subscribe((res) => {
+        this.events.set(res.items);
+        this.total.set(res.total);
       });
   }
 
@@ -68,6 +74,10 @@ export class EventsPageComponent {
 
   public setView(mode: ViewMode) {
     this.view.set(mode);
+  }
+
+  public onView(event: EventCardModel): void {
+    this.router.navigate(['/admin/eventos', event.id]);
   }
 
   public editEvent = (id: string) => console.log('edit', id);

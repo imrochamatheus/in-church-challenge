@@ -19,9 +19,11 @@
 @if (view()==='cards') {
 <section class="grid gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
     @if (!loading() && events().length) {
+
     @for (item of events(); track $index) {
-    <app-event-card [event]="item"></app-event-card>
+    <app-event-card [event]="item" (view)="onView($event)"></app-event-card>
     }
+
     } @else if (loading()) {
     <div class="col-span-full py-10 text-center text-sm text-gray-500">Carregando…</div>
     } @else {
