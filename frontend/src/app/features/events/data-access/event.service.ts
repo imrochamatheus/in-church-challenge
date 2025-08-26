@@ -17,7 +17,11 @@ export class EventService {
   }
 
   public getEvents(params: ListParams): Observable<ListResult<AppEvent>> {
-    const httpParams = new HttpParams().set('order', 'desc');
+    let httpParams = new HttpParams();
+
+    if (params.titleLike && params.titleLike.trim()) {
+      httpParams = httpParams.set('title_like', params.titleLike.trim());
+    }
 
     return this.http
       .get<AppEvent[]>(`${environment.apiUrl}/events`, { params: httpParams })
