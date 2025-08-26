@@ -1,0 +1,183 @@
+<div class="mb-4 flex items-center gap-3">
+    <button (click)="back()"
+        class="inline-flex items-center gap-2 px-3 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-50 text-sm">
+        <lucide-icon [name]="icons.back" [size]="16"></lucide-icon>
+        Voltar
+    </button>
+
+    <div class="ml-auto flex items-center gap-2">
+        <button type="button" (click)="cancel()"
+            class="flex items-center gap-2 px-3 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-50 text-sm">
+            <lucide-icon [name]="icons.cancel" [size]="16" class="hidden md:block"></lucide-icon>
+            Cancelar
+        </button>
+        <button type="button" (click)="submit()" [disabled]="saving()"
+            class="flex items-center gap-2 px-3 py-2 rounded-md border border-gray-900 bg-gray-900 text-white hover:opacity-90 disabled:opacity-60 text-sm">
+            <lucide-icon [name]="icons.save" [size]="16" class="hidden md:block"></lucide-icon>
+            Salvar
+        </button>
+    </div>
+</div>
+
+@if (loading()) {
+<div class="animate-pulse space-y-4">
+    <div class="h-48 bg-gray-200 rounded-md"></div>
+    <div class="h-6 bg-gray-200 rounded w-3/4"></div>
+    <div class="h-4 bg-gray-200 rounded w-1/2"></div>
+</div>
+} @else if (error()) {
+<div class="p-4 bg-red-50 border border-red-200 text-red-700 rounded-md">{{ error() }}</div>
+} @else {
+<form [formGroup]="form" class="bg-white border border-gray-200 rounded-lg p-4 md:p-6 space-y-6"
+    (submit)="$event.preventDefault(); submit();">
+    <div class="flex flex-col md:flex-row items-start md:items-stretch gap-4">
+        <div class="w-full md:w-40 md:shrink-0 aspect-video bg-gray-100 rounded overflow-hidden">
+            @if (form.get('image')?.value) {
+            <img [src]="form.get('image')?.value" alt="Prévia da imagem" class="w-full h-full object-cover">
+            } @else {
+            <div class="w-full h-full flex items-center justify-center text-gray-400">
+                <lucide-icon [name]="icons.image" [size]="24"></lucide-icon>
+            </div>
+            }
+        </div>
+
+        <div class="flex-1 grid sm:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-sm text-gray-600 mb-1">Título *</label>
+                <input type="text"
+                    class="w-full rounded-md border border-slate-300 bg-slate-50 px-3 py-2 outline-none focus:ring-2 focus:ring-lime-500 placeholder:text-slate-400 placeholder:text-sm"
+                    formControlName="title">
+                @if (hasError('title','required')) { <p class="text-xs text-red-600 mt-1">Informe um título.</p> }
+            </div>
+
+            <div>
+                <label class="block text-sm text-gray-600 mb-1">Status *</label>
+                <select
+                    class="w-full rounded-md border border-slate-300 bg-slate-50 px-3 py-2 outline-none focus:ring-2 focus:ring-lime-500 placeholder:text-slate-400 placeholder:text-sm"
+                    formControlName="status">
+                    <option value="active">Ativo</option>
+                    <option value="inactive">Inativo</option>
+                </select>
+            </div>
+
+            <div class="sm:col-span-2">
+                <label class="block text-sm text-gray-600 mb-1">URL da imagem</label>
+                <input type="url"
+                    class="w-full rounded-md border border-slate-300 bg-slate-50 px-3 py-2 outline-none focus:ring-2 focus:ring-lime-500 placeholder:text-slate-400 placeholder:text-sm"
+                    formControlName="image" placeholder="https://...">
+            </div>
+        </div>
+    </div>
+
+
+    <div class="grid md:grid-cols-3 gap-4">
+        <div>
+            <label class="block text-sm text-gray-600 mb-1">Categoria *</label>
+            <input type="text"
+                class="w-full rounded-md border border-slate-300 bg-slate-50 px-3 py-2 outline-none focus:ring-2 focus:ring-lime-500 placeholder:text-slate-400 placeholder:text-sm"
+                formControlName="category">
+            @if (hasError('category','required')) { <p class="text-xs text-red-600 mt-1">Informe a categoria.</p> }
+        </div>
+
+        <div>
+            <label class="block text-sm text-gray-600 mb-1">Local (sala/templo) *</label>
+            <input type="text"
+                class="w-full rounded-md border border-slate-300 bg-slate-50 px-3 py-2 outline-none focus:ring-2 focus:ring-lime-500 placeholder:text-slate-400 placeholder:text-sm"
+                formControlName="venue">
+            @if (hasError('venue','required')) { <p class="text-xs text-red-600 mt-1">Informe o local.</p> }
+        </div>
+
+        <div>
+            <label class="block text-sm text-gray-600 mb-1">Cidade *</label>
+            <input type="text"
+                class="w-full rounded-md border border-slate-300 bg-slate-50 px-3 py-2 outline-none focus:ring-2 focus:ring-lime-500 placeholder:text-slate-400 placeholder:text-sm"
+                formControlName="city">
+            @if (hasError('city','required')) { <p class="text-xs text-red-600 mt-1">Informe a cidade.</p> }
+        </div>
+
+        <div>
+            <label class="block text-sm text-gray-600 mb-1">Organizador</label>
+            <input type="text"
+                class="w-full rounded-md border border-slate-300 bg-slate-50 px-3 py-2 outline-none focus:ring-2 focus:ring-lime-500 placeholder:text-slate-400 placeholder:text-sm"
+                formControlName="organizer">
+        </div>
+
+        <div>
+            <label class="block text-sm text-gray-600 mb-1">Preço</label>
+            <input type="number"
+                class="w-full rounded-md border border-slate-300 bg-slate-50 px-3 py-2 outline-none focus:ring-2 focus:ring-lime-500 placeholder:text-slate-400 placeholder:text-sm"
+                formControlName="price" min="0" step="1">
+        </div>
+
+        <div>
+            <label class="block text-sm text-gray-600 mb-1">Ingressos disponíveis</label>
+            <input type="number"
+                class="w-full rounded-md border border-slate-300 bg-slate-50 px-3 py-2 outline-none focus:ring-2 focus:ring-lime-500 placeholder:text-slate-400 placeholder:text-sm"
+                formControlName="ticketsAvailable" min="0" step="1">
+        </div>
+
+        <div class="md:col-span-3">
+            <label class="block text-sm text-gray-600 mb-1">Descrição</label>
+            <textarea rows="3"
+                class="w-full rounded-md border border-slate-300 bg-slate-50 px-3 py-2 outline-none focus:ring-2 focus:ring-lime-500 placeholder:text-slate-400 placeholder:text-sm"
+                formControlName="description"></textarea>
+        </div>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-4">
+        <div>
+            <label class="block text-sm text-gray-600 mb-1">Público-alvo</label>
+            <input type="text"
+                class="w-full rounded-md border border-slate-300 bg-slate-50 px-3 py-2 outline-none focus:ring-2 focus:ring-lime-500 placeholder:text-slate-400 placeholder:text-sm"
+                formControlName="target">
+        </div>
+
+        <div>
+            <label class="block text-sm text-gray-600 mb-1">Publicado para</label>
+            <input type="text"
+                class="w-full rounded-md border border-slate-300 bg-slate-50 px-3 py-2 outline-none focus:ring-2 focus:ring-lime-500 placeholder:text-slate-400 placeholder:text-sm"
+                formControlName="publishedFor" placeholder="App, Site, App e Site">
+        </div>
+
+        <div>
+            <label class="block text-sm text-gray-600 mb-1">Total de leitores</label>
+            <input type="number"
+                class="w-full rounded-md border border-slate-300 bg-slate-50 px-3 py-2 outline-none focus:ring-2 focus:ring-lime-500 placeholder:text-slate-400 placeholder:text-sm"
+                formControlName="readers" min="0" step="1" placeholder="-">
+        </div>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-4">
+        <div>
+            <label class="block text-sm text-gray-600 mb-1">Publicado em *</label>
+            <input type="datetime-local"
+                class="w-full rounded-md border border-slate-300 bg-slate-50 px-3 py-2 outline-none focus:ring-2 focus:ring-lime-500 placeholder:text-slate-400 placeholder:text-sm"
+                formControlName="publishedAtLocal">
+            @if (hasError('publishedAtLocal','required')) { <p class="text-xs text-red-600 mt-1">Informe a data/hora.
+            </p> }
+        </div>
+
+        <div>
+            <label class="block text-sm text-gray-600 mb-1">Início *</label>
+            <input type="datetime-local"
+                class="w-full rounded-md border border-slate-300 bg-slate-50 px-3 py-2 outline-none focus:ring-2 focus:ring-lime-500 placeholder:text-slate-400 placeholder:text-sm"
+                formControlName="startAtLocal">
+            @if (hasError('startAtLocal','required')) { <p class="text-xs text-red-600 mt-1">Informe a data/hora.</p> }
+        </div>
+
+        <div>
+            <label class="block text-sm text-gray-600 mb-1">Fim *</label>
+            <input type="datetime-local"
+                class="w-full rounded-md border border-slate-300 bg-slate-50 px-3 py-2 outline-none focus:ring-2 focus:ring-lime-500 placeholder:text-slate-400 placeholder:text-sm"
+                formControlName="endAtLocal">
+            @if (hasError('endAtLocal','required')) { <p class="text-xs text-red-600 mt-1">Informe a data/hora.</p> }
+        </div>
+
+        @if (form.errors?.['dateRange']) {
+        <div class="md:col-span-3 text-xs text-red-600">
+            A data/hora de <b>início</b> deve ser anterior ou igual à de <b>fim</b>.
+        </div>
+        }
+    </div>
+</form>
+}

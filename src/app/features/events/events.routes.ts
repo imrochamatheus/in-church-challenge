@@ -17,4 +17,12 @@ export const eventRoutes: Route[] = [
         (m) => m.EventDetailPageComponent
       ),
   },
+  {
+    path: ':id/editar',
+    title: 'Editar Evento',
+    loadComponent: () =>
+      import('./pages/event-edit-page/event-edit-page.component').then(
+        (m) => m.EventEditPageComponent
+      ),
+  },
 ];

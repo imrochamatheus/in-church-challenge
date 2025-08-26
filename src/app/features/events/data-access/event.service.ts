@@ -39,4 +39,10 @@ export class EventService {
         })
       );
   }
+
+  public update(id: string, changes: Partial<AppEvent>): Observable<AppEvent> {
+    return this.http
+      .patch<AppEvent>(`${environment.apiUrl}/events/${id}`, changes)
+      .pipe(map((event) => ({ ...event, id: String(event.id) })));
+  }
 }
