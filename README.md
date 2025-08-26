@@ -1,59 +1,65 @@
-# InChurchChallenge
+# Desafio Técnico - Desenvolvedor Front-End Pleno (Angular)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.8.
+Uma aplicação full-stack que permite efetuar login, listar, atualizar e remover eventos.
 
-## Development server
+---
 
-To start a local development server, run:
+## 🧩 Visão Geral
 
-```bash
-ng serve
-```
+- **Frontend:** SPA desenvolvido em **Angular**, responsável pela interface de busca, listagem, exclusão e deleção de eventos.
+- **Backend:** Fake API utilizando **Json-Server**, responsável por fornecer os dados a serem exibidos no frontend.
+- A aplicação está containerizada com **Docker** e orquestrada com **Docker Compose**.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+## 📦 Tecnologias Utilizadas
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### Frontend (Angular)
 
-```bash
-ng generate component component-name
-```
+- Angular 19
+- RxJS
+- Angular CLI
+- PrimeNG
+- Tailwind CSS
+- Lucide-Angular
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### Backend (Json-Server)
 
-```bash
-ng generate --help
-```
+- Json-Server
 
-## Building
+### Infraestrutura
 
-To build the project run:
+- Docker
+- Docker Compose
 
-```bash
-ng build
-```
+---
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## ▶️ Como Executar a Aplicação (Docker)
 
-## Running unit tests
+### Pré-requisitos
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+- [Docker](https://www.docker.com/get-started)
+- [Docker Compose](https://docs.docker.com/compose/)
 
-```bash
-ng test
-```
+### Passos
 
-## Running end-to-end tests
+1. Clone este repositório:
 
-For end-to-end (e2e) testing, run:
+   ```bash
+   git clone https://github.com/imrochamatheus/in-church-challenge.git
+   cd in-church-challenge
+   ```
 
-```bash
-ng e2e
-```
+2. Execute os containers:
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+   ```bash
+   docker-compose up --build
+   ```
 
-## Additional Resources
+3. Acesse a aplicação:
+   - **Frontend (SPA):** [http://localhost:4200](http://localhost:4200)
+   - **Backend (Fake-API Json Server):** [http://localhost:3000](http://localhost:3000)
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+> 🔁 Para reiniciar: `docker-compose down && docker-compose up --build`
+
+---

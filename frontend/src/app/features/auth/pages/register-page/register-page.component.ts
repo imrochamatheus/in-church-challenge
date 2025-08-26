@@ -9,6 +9,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 
+import { MessageService } from 'primeng/api';
 import { catchError, EMPTY, finalize, take } from 'rxjs';
 
 import { User } from '../../data-access/auth.models';
@@ -40,7 +41,8 @@ export class RegisterPageComponent {
   constructor(
     private readonly fb: FormBuilder,
     private readonly router: Router,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly messageService: MessageService
   ) {
     this.form = this.fb.group(
       {
@@ -75,13 +77,25 @@ export class RegisterPageComponent {
           this.loading.set(false);
         }),
         catchError(() => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Falha ao cadastrar',
+            detail: 'Por favor, tente novamente.',
+          });
+
           return EMPTY;
         })
       )
       .subscribe((_: User) => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Cadastro realizado com sucesso',
+          detail: 'Você já pode fazer login!',
+        });
+
         setTimeout(() => {
           this.router.navigate(['/auth/login']);
-        }, 2000);
+        }, 1000);
       });
   }
 }

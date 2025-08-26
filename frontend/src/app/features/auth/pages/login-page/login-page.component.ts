@@ -1,11 +1,12 @@
 import { Component, signal } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
 import {
   FormGroup,
   Validators,
   FormBuilder,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { MessageService } from 'primeng/api';
 
 import { catchError, EMPTY, finalize, take } from 'rxjs';
 
@@ -27,7 +28,8 @@ export class LoginPageComponent {
   constructor(
     private readonly router: Router,
     private readonly fb: FormBuilder,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly messageService: MessageService
   ) {
     this.form = this.fb.nonNullable.group({
       email: ['', [Validators.email, Validators.required]],
@@ -45,11 +47,21 @@ export class LoginPageComponent {
         take(1),
         finalize(() => this.loading.set(false)),
         catchError(() => {
-          console.error('Login failed');
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Falha ao logar',
+            detail: 'Por favor, verifique suas credenciais.',
+          });
           return EMPTY;
         })
       )
       .subscribe((_: User) => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Logado com sucesso',
+          detail: 'Bem-vindo de volta!',
+        });
+
         setTimeout(() => {
           this.router.navigate(['/admin/eventos']);
         }, 600);
