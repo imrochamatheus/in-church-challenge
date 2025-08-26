@@ -3,16 +3,24 @@ import { CommonModule } from '@angular/common';
 import { Component, effect, signal } from '@angular/core';
 
 import { ToastModule } from 'primeng/toast';
-import { catchError, EMPTY, finalize, take } from 'rxjs';
+import {
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  EMPTY,
+  finalize,
+  take,
+} from 'rxjs';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
-import { Grid3x3, LucideAngularModule, Table } from 'lucide-angular';
+import { Grid3x3, LucideAngularModule, Search, Table, X } from 'lucide-angular';
 
 import { EventService } from '../../data-access/event.service';
 import { AppEvent, EventCardModel } from '../../data-access/event.models';
 import { EventCardComponent } from '../../ui/event-card/event-card.component';
 import { EventsTableComponent } from '../../ui/events-table/events-table.component';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 type ViewMode = 'cards' | 'table';
 
@@ -23,9 +31,10 @@ type ViewMode = 'cards' | 'table';
     CommonModule,
     PaginatorModule,
     EventCardComponent,
-    LucideAngularModule,
-    EventsTableComponent,
     ConfirmDialogModule,
+    LucideAngularModule,
+    ReactiveFormsModule,
+    EventsTableComponent,
   ],
   templateUrl: './events-page.component.html',
   styleUrl: './events-page.component.scss',
@@ -38,9 +47,16 @@ export class EventsPageComponent {
   public readonly events = signal<AppEvent[]>([]);
   public readonly view = signal<ViewMode>('cards');
 
+  public readonly search = signal<string>('');
+  public readonly searchCtrl = new FormControl<string>('', {
+    nonNullable: true,
+  });
+
   public readonly icons = {
     grid: Grid3x3,
     table: Table,
+    search: Search,
+    clear: X,
   };
 
   constructor(
@@ -49,7 +65,22 @@ export class EventsPageComponent {
     private readonly messageService: MessageService,
     private readonly confirmationService: ConfirmationService
   ) {
-    effect(() => this.fetch());
+    this.searchCtrl.valueChanges
+      .pipe(debounceTime(300), distinctUntilChanged())
+      .subscribe((term) => {
+        this.search.set(term ?? '');
+        this.page.set(0);
+        this.fetch();
+      });
+
+    effect(
+      () => {
+        this.page();
+        this.rows();
+        this.fetch();
+      },
+      { allowSignalWrites: true }
+    );
   }
 
   public confirmDelete(id: string, title?: string): void {
@@ -102,6 +133,7 @@ export class EventsPageComponent {
       .getEvents({
         page: this.page() + 1,
         limit: this.rows(),
+        titleLike: this.search().trim() || undefined,
       })
       .pipe(
         take(1),
@@ -133,5 +165,11 @@ export class EventsPageComponent {
 
   public deleteEvent(event: AppEvent): void {
     this.confirmDelete(event.id, event.title);
+  }
+
+  public clearSearch(): void {
+    if (this.searchCtrl.value) {
+      this.searchCtrl.setValue('');
+    }
   }
 }

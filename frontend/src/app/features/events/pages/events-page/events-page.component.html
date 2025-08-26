@@ -1,4 +1,19 @@
-<div class="mb-4 flex items-center justify-between">
+<div class="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <div class="relative w-full sm:max-w-md">
+        <lucide-icon [name]="icons.search" [size]="18"
+            class="absolute left-2 top-3 -translate-y-1/2 text-gray-400"></lucide-icon>
+        <input type="text" placeholder="Buscar por título…"
+            class="mt-1 w-full rounded-xl border border-slate-300 bg-slate-50 px-10 py-2 outline-none placeholder:text-slate-400 placeholder:text-sm"
+            [formControl]="searchCtrl" />
+
+        @if (searchCtrl) {
+        <button type="button" (click)="clearSearch()"
+            class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+            <lucide-icon [name]="icons.clear" [size]="16"></lucide-icon>
+        </button>
+        }
+    </div>
+
     <div class="flex items-center gap-2">
         <button type="button" class="px-3 py-2 rounded-md border text-sm flex items-center gap-2 transition-colors"
             [ngClass]="view()==='cards' ? 'bg-gray-900 text-white border-gray-900' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'"
