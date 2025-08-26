@@ -9,6 +9,7 @@ import {
   LucideAngularModule,
 } from 'lucide-angular';
 import { AuthService } from '../../../features/auth/data-access/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -23,7 +24,10 @@ export class HeaderComponent {
 
   public isSearchOpen = signal(false);
 
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly router: Router
+  ) {}
 
   public readonly icons = {
     grid: Grid3x3,
@@ -41,5 +45,13 @@ export class HeaderComponent {
 
   public onLogout() {
     this.authService.logout();
+  }
+
+  public getUserName(): string {
+    if (this.authService.user() === null) {
+      this.router.navigate(['auth', 'login']);
+    }
+
+    return this.authService.user()?.username || '';
   }
 }
